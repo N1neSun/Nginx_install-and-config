@@ -16,4 +16,7 @@ yum install -y wget
 wget -c http://nginx.org/download/nginx-$version.tar.gz
 tar -zvxf nginx-$version.tar.gz
 cd nginx-$version
-./configure --prefix=/usr/local/nginx --with-http_stub_status_module && make && make install
+groupadd www
+useradd -g www www
+./configure --user=www --group=www --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module && make && make install
+
