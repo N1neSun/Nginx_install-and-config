@@ -1,6 +1,7 @@
 #!/bin/bash
 read -p "Input the nginx version:" version
 echo "The version is $version"
+read -p "Input the user and group:" user group
 isOK=$(curl -I http://nginx.org/download/nginx-$version.tar.gz | grep 200)
 while [ "$isOK" == "" ];
 do
@@ -16,7 +17,6 @@ yum install -y wget
 wget -c http://nginx.org/download/nginx-$version.tar.gz
 tar -zvxf nginx-$version.tar.gz
 cd nginx-$version
-groupadd www
-useradd -g www www
-./configure --user=www --group=www --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module && make && make install
-
+groupadd $group
+useradd -g $user $user
+./configure --user=$user --group=$group --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module && make && make install
