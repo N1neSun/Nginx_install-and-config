@@ -2,9 +2,11 @@
 read -p "Input the nginx version:" version
 echo "The version is $version"
 isOK=$(curl -I http://nginx.org/download/nginx-$version.tar.gz | grep 200)
-if[ "$isOk" == "" ]; then
+while [ "$isOK" == "" ];
+do
 read -p "The version is not exist,re-enter:" version
-fi
+isOK=$(curl -I http://nginx.org/download/nginx-$version.tar.gz | grep 200)
+done
 yum install -y pcre pcre-devel
 yum install -y zlib zlib-devel
 yum install -y openssl openssl-devel
